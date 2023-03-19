@@ -2,11 +2,11 @@
 
 ## Install
 ```shell
-npm install -D react-tools
+npm install -D @s247kim/react-tools
 ```
 or install globally
 ```shell
-npm install -g react-tools
+npm install -g @s247kim/react-tools
 ```
 
 ## Usages
