@@ -1,6 +1,6 @@
 {
   "name": "@s247kim/react-tools",
-  "version": "2.0.3",
+  "version": "2.0.5",
   "description": "A CLI tool to generate React template",
   "files": [
     "build"

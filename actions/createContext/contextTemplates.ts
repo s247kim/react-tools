@@ -25,7 +25,7 @@ export const ${camelName}Reducer: ${pascalName}Reducer = (state, action) => {
     case "clearStore": {
       return {};
     }
-    case "setData": {
+    case "setStore": {
       return { ...state, ...action.value };
     }
     default: {
@@ -54,7 +54,7 @@ ${pascalName}StoreContext.displayName = "${pascalName}StoreContext";
 export const use${pascalName}Action = (): Dispatch<${pascalName}Action> => {
   const context = useContext(${pascalName}ActionContext);
   if (!context) {
-    throw new Error("useAction must be used within a ${pascalName}Provider");
+    throw new Error("use${pascalName}Action must be used within a ${pascalName}Provider");
   }
   return context;
 }
@@ -62,7 +62,7 @@ export const use${pascalName}Action = (): Dispatch<${pascalName}Action> => {
 export const use${pascalName}Store = (): ${pascalName}Store => {
   const context = useContext(${pascalName}StoreContext);
   if (!context) {
-    throw new Error("useStore must be used within a ${pascalName}Provider");
+    throw new Error("use${pascalName}Store must be used within a ${pascalName}Provider");
   }
   return context;
 };
