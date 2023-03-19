@@ -1,4 +1,4 @@
-# Opnionated React Template Generating tool
+# Opinionated React Template Generating tool
 
 ## Install
 ```shell
