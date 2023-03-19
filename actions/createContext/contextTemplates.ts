@@ -7,8 +7,8 @@ export const getContextTypeTemplate = (pascalName: string, camelName: string): s
   return `export type ${pascalName}Store = {};
 
 export type ${pascalName}Action =
-  | { "clearStore" }
-  | { "setStore": Partial<${pascalName}Store> }
+  | { type: "clearStore" }
+  | { type: "setStore"; value: Partial<${pascalName}Store> };
 
 export const init${pascalName}Store = (): ${pascalName}Store => {
   return {};
