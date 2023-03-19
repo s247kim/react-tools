@@ -1,0 +1,31 @@
+{
+  "name": "react-tools",
+  "version": "1.0.0",
+  "description": "A CLI tool to generate React template",
+  "bin": {
+    "react-tools": "./build/index.js"
+  },
+  "main": "./build/index.js",
+  "scripts": {
+    "build": "rm -rf src && tsc",
+    "start": "npm run build && node index.js",
+    "release": "npm run build && npm i -g",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react",
+    "boilerplate",
+    "snippet",
+    "template"
+  ],
+  "author": "s247kim",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.3",
+    "typescript": "^5.0.2"
+  }
+}
