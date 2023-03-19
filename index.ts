@@ -1,11 +1,17 @@
 #! /usr/bin/env node
 
 import { program } from "commander";
-import { createAction } from "./actions";
+import { generateComponentAction, generateContextAction } from "./actions";
 
-program.command("create")
-  .description("Create React Template")
-  .option('-c, --component <name>', 'React')
-  .action(createAction);
+program.command("gen-comp")
+  .description("Generate React Component from Template")
+  .argument("<componentName>")
+  .option("-s, --shared", "Make a shared component")
+  .action(generateComponentAction);
+
+program.command("gen-context")
+  .description("Generate React Context from Template")
+  .argument("<contextName>")
+  .action(generateContextAction);
 
 program.parse();

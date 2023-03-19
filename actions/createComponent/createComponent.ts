@@ -4,17 +4,18 @@ import * as path from "path";
 
 import { printError, printInfo, printSuccess } from "../../utils/message.utils";
 import { strToCamelCase, strToPascalCase } from "../../utils/string.utils";
-import { getComponentTemplate, getIndexTemplate, getStyleTemplate } from "./componentFileTemplate";
+import { getComponentIndexTemplate, getComponentStyleTemplate, getComponentTemplate } from "./componentTemplates";
 
-export const createReactComponent = async (
-  componentName: string
+export const createComponent = async (
+  componentName: string,
+  isShared: boolean
 ): Promise<void> => {
   const pascalName = strToPascalCase(componentName);
   const camelName = strToCamelCase(componentName);
 
   printInfo(`Creating React Component ${chalk.yellow(pascalName)}`);
 
-  const componentsDir = path.resolve(process.cwd(), "src/components", camelName);
+  const componentsDir = path.resolve(process.cwd(), "src/components", isShared ? "shared" : "", camelName);
   try {
     const files = await fs.readdir(componentsDir);
     printInfo(`Directory already has ${files.length} files`);
@@ -37,12 +38,12 @@ export const createReactComponent = async (
   await fs.writeFile(path.resolve(componentsDir, componentFileName), componentContent);
   printInfo(`Component Created ${chalk.yellow(componentFileName)}`);
 
-  const styleContent = getStyleTemplate(camelName);
+  const styleContent = getComponentStyleTemplate(pascalName, camelName);
   const styleFileName = `${camelName}.styles.module.scss`;
   await fs.writeFile(path.resolve(componentsDir, styleFileName), styleContent);
   printInfo(`Style Created ${chalk.yellow(styleFileName)}`);
 
-  const indexContent = getIndexTemplate(camelName);
+  const indexContent = getComponentIndexTemplate(pascalName, camelName);
   const indexFileName = `index.ts`;
   await fs.writeFile(path.resolve(componentsDir, indexFileName), indexContent);
   printInfo(`Index Created ${chalk.yellow(indexFileName)}`);
