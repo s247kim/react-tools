@@ -8,17 +8,18 @@ import { getComponentIndexTemplate, getComponentStyleTemplate, getComponentTempl
 
 export const createComponent = async (
   componentName: string,
-  isShared: boolean
+  isShared: boolean,
+  directory?: string
 ): Promise<void> => {
   const pascalName = strToPascalCase(componentName);
   const camelName = strToCamelCase(componentName);
 
   printInfo(`Creating React Component ${chalk.yellow(pascalName)}`);
 
-  const componentsDir = path.resolve(process.cwd(), "src/components", isShared ? "shared" : "", camelName);
+  const componentsDir = path.resolve(process.cwd(), "src/components", isShared ? "shared" : "", directory || "", camelName);
   try {
     const files = await fs.readdir(componentsDir);
-    printInfo(`Directory already has ${files.length} files`);
+    printInfo(`Directory already has ${files.length} items`);
     printError(`Aborting`);
     return;
   } catch (err: any) {
