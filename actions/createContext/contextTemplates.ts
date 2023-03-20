@@ -31,7 +31,7 @@ export const ${camelName}Reducer: ${pascalName}Reducer = (state, action) => {
     default: {
       throw new Error(
         // @ts-ignore
-        \`\${action.type} is not a valid action for the todoManage context\`
+        \`\${action.type} is not a valid action for the ${camelName} context\`
       );
     }
   }

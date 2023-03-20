@@ -6,11 +6,23 @@ If your React package missing `Typescript` or `sass`, the template generated fro
 
 ## Install
 ```shell
+npm install -g @s247kim/react-tools
+```
+> new command named `react-tools` registered globally.
+
+or install locally
+```shell
 npm install -D @s247kim/react-tools
 ```
-or install globally
+> NOTE: If it is installed locally, the script is placed in the bin within `node_modules`.  
+> Register it as a `scripts` in `pacakge.json` file to use it 
 ```shell
-npm install -g @s247kim/react-tools
+# e.g. if `{"tools": "react-tools"}` is added to `scripts` section in the `package.json`  
+npm run tools
+```
+or use it without installation
+```shell
+npx @s247kim/react-tools
 ```
 
 ## Usages
