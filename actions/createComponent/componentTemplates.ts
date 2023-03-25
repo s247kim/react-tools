@@ -15,9 +15,11 @@ type ${pascalName}Props = {
   // ...
 };
 
-export const ${pascalName}: FC<PropsWithChildren<${pascalName}Props>> = () => {
+const ${pascalName}Component: FC<PropsWithChildren<${pascalName}Props>> = () => {
   
   return <div className={styles.${camelName}}></div>;
 };
-${pascalName}.displayName = "${pascalName}";`;
+${pascalName}Component.displayName = "${pascalName}";
+
+export const ${pascalName} = ${pascalName}Component`;
 };
