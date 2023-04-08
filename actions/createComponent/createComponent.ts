@@ -4,11 +4,12 @@ import * as path from "path";
 
 import { printError, printInfo, printSuccess } from "../../utils/message.utils";
 import { strToCamelCase, strToPascalCase } from "../../utils/string.utils";
-import { getComponentIndexTemplate, getComponentStyleTemplate, getComponentTemplate } from "./componentTemplates";
+import { getComponentStyleTemplate, getComponentTemplate, getComponentTestTemplate } from "./componentTemplates";
 
 export const createComponent = async (
   componentName: string,
   isShared: boolean,
+  isEmotion: boolean,
   directory?: string
 ): Promise<void> => {
   const pascalName = strToPascalCase(componentName);
@@ -31,23 +32,23 @@ export const createComponent = async (
     }
   }
 
-  await fs.mkdir(componentsDir, { recursive: true });
+  await fs.mkdir(componentsDir, {recursive: true});
   printInfo(`Directory Created ${chalk.yellow(componentsDir)}`);
 
-  const componentContent = getComponentTemplate(pascalName, camelName);
+  const componentContent = getComponentTemplate(pascalName, camelName, isEmotion);
   const componentFileName = `${camelName}.component.tsx`;
   await fs.writeFile(path.resolve(componentsDir, componentFileName), componentContent);
   printInfo(`Component Created ${chalk.yellow(componentFileName)}`);
 
-  const styleContent = getComponentStyleTemplate(pascalName, camelName);
-  const styleFileName = `${camelName}.styles.module.scss`;
+  const styleContent = getComponentStyleTemplate(pascalName, camelName, isEmotion);
+  const styleFileName = isEmotion ? `${camelName}.styles.ts` : `${camelName}.styles.module.scss`;
   await fs.writeFile(path.resolve(componentsDir, styleFileName), styleContent);
   printInfo(`Style Created ${chalk.yellow(styleFileName)}`);
 
-  const indexContent = getComponentIndexTemplate(pascalName, camelName);
-  const indexFileName = `index.ts`;
-  await fs.writeFile(path.resolve(componentsDir, indexFileName), indexContent);
-  printInfo(`Index Created ${chalk.yellow(indexFileName)}`);
+  const testContent = getComponentTestTemplate(pascalName, camelName);
+  const testFileName = `${camelName}.spec.tsx`;
+  await fs.writeFile(path.resolve(componentsDir, testFileName), testContent);
+  printInfo(`Test Created ${chalk.yellow(testFileName)}`);
 
   printSuccess(`Created React Component ${chalk.yellow(pascalName)}`);
 };

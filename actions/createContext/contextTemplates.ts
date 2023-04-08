@@ -1,17 +1,14 @@
-export const getContextIndexTemplate = (pascalName: string, camelName: string): string => {
-  return `export * from "./${camelName}.provider";
-export type { ${pascalName}Store } from "./${camelName}.types";`;
-};
-
 export const getContextTypeTemplate = (pascalName: string, camelName: string): string => {
-  return `export type ${pascalName}Store = {};
+  return `export type ${pascalName}Store = {
+  sample: string;  
+};
 
 export type ${pascalName}Action =
   | { type: "clearStore" }
-  | { type: "setStore"; value: Partial<${pascalName}Store> };
+  | { type: "setStore"; value: { str: string } };
 
 export const init${pascalName}Store = (): ${pascalName}Store => {
-  return {};
+  return { sample: 'sample'};
 };`;
 };
 
@@ -23,10 +20,11 @@ type ${pascalName}Reducer = (state: ${pascalName}Store, action: ${pascalName}Act
 export const ${camelName}Reducer: ${pascalName}Reducer = (state, action) => {
   switch (action.type) {
     case "clearStore": {
-      return {};
+      return { sample: "" };
     }
     case "setStore": {
-      return { ...state, ...action.value };
+      const { str } = action.value;
+      return { sample: str };
     }
     default: {
       throw new Error(
@@ -79,5 +77,55 @@ export const ${pascalName}Provider: FC<PropsWithChildren> = ({ children }) => {
   );
 };
 ${pascalName}Provider.displayName = "${pascalName}Provider";`;
+};
+
+export const getContextTestTemplate = (pascalName: string, camelName: string): string => {
+  return `import { renderHook } from "@testing-library/react";
+
+import { ${pascalName}Store } from "./${camelName}.types";
+import { ${camelName}Reducer } from "./${camelName}.reducer";
+import { use${pascalName}Action, use${pascalName}Store } from "./${camelName}.provider";
+
+describe("${camelName}Context", () => {
+  it("sets sample", async () => {
+    const state: ${pascalName}Store = { sample: "" };
+    const sampleSetState = ${camelName}Reducer(state, {
+      type: "setStore",
+      value: { str: "test" }
+    });
+    
+    // immutability check: previous state must not be modified
+    expect(state).toEqual({ sample: "" });
+    expect(sampleSetState).toEqual({ sample: "test" });
+  });
+  
+  it("clears sample", async () => {
+    const state: ${pascalName}Store = { sample: "test" };
+    const sampleClearState = ${camelName}Reducer(state, { type: "clearStore" });
+    
+    // immutability check: previous state must not be modified
+    expect(state).toEqual({ sample: "test" });
+    expect(sampleClearState).toEqual({ sample: "" });
+  });
+
+  it("throws error when action type is not supported", async () => {
+    const state: ${pascalName}Store = { sample: "test" };
+
+    // @ts-ignore
+    expect(() => ${camelName}Reducer(state, { type: "invalid action" })).toThrowError(
+      "invalid action is not a valid action for the ${camelName} context"
+    );
+  });
+
+  it("throws error when use${pascalName}Action is not within the ${pascalName}Provider", async () => {
+    console.error = jest.fn();
+    expect(() => renderHook(() => use${pascalName}Action())).toThrowError(/must be used within/);
+  });
+
+  it("throws error when use${pascalName}Store is not within the ${pascalName}Provider", async () => {
+    console.error = jest.fn();
+    expect(() => renderHook(() => use${pascalName}Store())).toThrowError(/must be used within/);
+  });
+});`;
 };
 

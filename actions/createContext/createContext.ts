@@ -5,13 +5,13 @@ import * as path from "path";
 import { printError, printInfo, printSuccess } from "../../utils/message.utils";
 import { strToCamelCase, strToPascalCase } from "../../utils/string.utils";
 import {
-  getContextIndexTemplate,
   getContextProviderTemplate,
   getContextReducerTemplate,
+  getContextTestTemplate,
   getContextTypeTemplate
 } from "./contextTemplates";
 
-export const createContext = async (contextName: string): Promise<void> => {
+export const createContext = async (contextName: string, makeHook: boolean): Promise<void> => {
   const pascalName = strToPascalCase(contextName);
   const camelName = strToCamelCase(contextName);
 
@@ -32,7 +32,7 @@ export const createContext = async (contextName: string): Promise<void> => {
     }
   }
 
-  await fs.mkdir(contextDir, { recursive: true });
+  await fs.mkdir(contextDir, {recursive: true});
   printInfo(`Directory Created ${chalk.yellow(contextDir)}`);
 
   const providerContent = getContextProviderTemplate(pascalName, camelName);
@@ -50,10 +50,10 @@ export const createContext = async (contextName: string): Promise<void> => {
   await fs.writeFile(path.resolve(contextDir, typeFileName), typeContent);
   printInfo(`Type Created ${chalk.yellow(typeFileName)}`);
 
-  const indexContent = getContextIndexTemplate(pascalName, camelName);
-  const indexFileName = `index.ts`;
-  await fs.writeFile(path.resolve(contextDir, indexFileName), indexContent);
-  printInfo(`Index Created ${chalk.yellow(indexFileName)}`);
+  const testContent = getContextTestTemplate(pascalName, camelName);
+  const testFileName = `${camelName}.spec.ts`;
+  await fs.writeFile(path.resolve(contextDir, testFileName), testContent);
+  printInfo(`Test Created ${chalk.yellow(testFileName)}`);
 
   printSuccess(`Created React Context ${chalk.yellow(pascalName)}`);
 };
