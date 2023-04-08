@@ -117,12 +117,12 @@ describe("${camelName}Context", () => {
     );
   });
 
-  it("throws error when use${pascalName}Action is not within the ${pascalName}Provider", async () => {
+  it("throws error when use${pascalName}Action is not within a ${pascalName}Provider", async () => {
     console.error = jest.fn();
     expect(() => renderHook(() => use${pascalName}Action())).toThrowError(/must be used within/);
   });
 
-  it("throws error when use${pascalName}Store is not within the ${pascalName}Provider", async () => {
+  it("throws error when use${pascalName}Store is not within a ${pascalName}Provider", async () => {
     console.error = jest.fn();
     expect(() => renderHook(() => use${pascalName}Store())).toThrowError(/must be used within/);
   });

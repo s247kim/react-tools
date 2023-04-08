@@ -1,6 +1,6 @@
 import chalk from "chalk";
-import * as fs from "fs/promises";
-import * as path from "path";
+import path from "path";
+import fs from "fs/promises";
 
 import { printError, printInfo, printSuccess } from "../../utils/message.utils";
 import { strToCamelCase, strToPascalCase } from "../../utils/string.utils";

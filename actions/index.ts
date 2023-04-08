@@ -1,5 +1,6 @@
 import { createComponent } from "./createComponent/createComponent";
 import { createContext } from "./createContext/createContext";
+import { createHook } from "./createHook/createHook";
 
 export const generateComponentAction = (componentName: string, options: {
   shared?: boolean,
@@ -11,4 +12,8 @@ export const generateComponentAction = (componentName: string, options: {
 
 export const generateContextAction = (contextName: string, options: { hook?: boolean }) => {
   createContext(contextName, options.hook || false);
+};
+
+export const generateHookAction = (hookName: string) => {
+  createHook(hookName, false);
 };

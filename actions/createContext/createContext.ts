@@ -1,6 +1,6 @@
 import chalk from "chalk";
-import * as fs from "fs/promises";
-import * as path from "path";
+import path from "path";
+import fs from "fs/promises";
 
 import { printError, printInfo, printSuccess } from "../../utils/message.utils";
 import { strToCamelCase, strToPascalCase } from "../../utils/string.utils";
@@ -10,6 +10,7 @@ import {
   getContextTestTemplate,
   getContextTypeTemplate
 } from "./contextTemplates";
+import { createHook } from "../createHook/createHook";
 
 export const createContext = async (contextName: string, makeHook: boolean): Promise<void> => {
   const pascalName = strToPascalCase(contextName);
@@ -56,4 +57,8 @@ export const createContext = async (contextName: string, makeHook: boolean): Pro
   printInfo(`Test Created ${chalk.yellow(testFileName)}`);
 
   printSuccess(`Created React Context ${chalk.yellow(pascalName)}`);
+
+  if (makeHook) {
+    await createHook(contextName, true);
+  }
 };
